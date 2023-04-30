@@ -9,6 +9,7 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_500</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -19,5 +20,9 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_pokeinfo</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
         <item name="postSplashScreenTheme">@style/Theme.PokeInfo</item>
+    </style>
+
+    <style name="CardType">
+        <item name="android:radius">10dp</item>
     </style>
 </resources>
