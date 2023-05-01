@@ -3,13 +3,13 @@ package joalissongomes.dev.pokeinfo.presentation
 import joalissongomes.dev.pokeinfo.data.PokemonCallback
 import joalissongomes.dev.pokeinfo.data.PokemonRemoteDataSource
 import joalissongomes.dev.pokeinfo.model.PokemonDetail
-import joalissongomes.dev.pokeinfo.view.PokemonView
+import joalissongomes.dev.pokeinfo.view.HomeView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PokemonPresenter(
-    private val pokemonView: PokemonView,
+class HomePresenter(
+    private val pokemonView: HomeView,
     private val dataSource: PokemonRemoteDataSource = PokemonRemoteDataSource()
 ) : PokemonCallback {
 
@@ -18,12 +18,12 @@ class PokemonPresenter(
 
         pokemonView.showProgressBar()
         scope.launch {
-            dataSource.findPokemonList(this@PokemonPresenter, offset)
+            dataSource.findPokemonList(this@HomePresenter, offset)
         }
     }
 
-    override fun onSuccess(response: List<PokemonDetail>, count: Int) {
-        response.let { pokemonView.showPokemonDetail(it, count) }
+    override fun onSuccess(response: List<PokemonDetail>, total: Int) {
+        response.let { pokemonView.showPokemonDetail(it, total) }
     }
 
     override fun onError(message: String) {
