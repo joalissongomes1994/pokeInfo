@@ -23,7 +23,7 @@ class HomeFragment: Fragment(), HomeView {
     private lateinit var presenter: HomePresenter
     private lateinit var rvMain: RecyclerView
     private val pokemonList = mutableListOf<PokemonDetail>()
-    private val adapter = MainAdapter(pokemonList)
+    private val adapter = HomeAdapter(pokemonList)
     private val scope = CoroutineScope(Dispatchers.Main)
     private var isLoading = false
     private var offset = 0

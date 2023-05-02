@@ -18,8 +18,8 @@ import joalissongomes.dev.pokeinfo.model.PokemonDetail
 import joalissongomes.dev.pokeinfo.model.Types
 import joalissongomes.dev.pokeinfo.utils.getColor
 
-class MainAdapter(private val pokemonList: List<PokemonDetail>) :
-    RecyclerView.Adapter<MainAdapter.MainViewAdapter>() {
+class HomeAdapter(private val pokemonList: List<PokemonDetail>) :
+    RecyclerView.Adapter<HomeAdapter.MainViewAdapter>() {
 
     private lateinit var rvPokemonType: RecyclerView
     private lateinit var adapter: PokemonTypeAdapter
