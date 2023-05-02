@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PokeInfo</string>
     <string name="pokemon_order">N° %1$s</string>
+    <string name="home">Home</string>
 </resources>

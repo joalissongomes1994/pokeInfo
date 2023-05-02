@@ -25,4 +25,10 @@
     <style name="CardType">
         <item name="android:radius">10dp</item>
     </style>
+
+    <style name="Theme.PokeInfo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.PokeInfo.popupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/blue_800</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
 </resources>
