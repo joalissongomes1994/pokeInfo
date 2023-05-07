@@ -1,10 +1,11 @@
 package joalissongomes.dev.pokeinfo.utils
 
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import joalissongomes.dev.pokeinfo.R
 
-@IntegerRes
+@ColorRes
 fun getColor(type: String): Int {
     return when (type) {
         "NORMAL" -> R.color.gray_200
@@ -30,7 +31,7 @@ fun getColor(type: String): Int {
     }
 }
 
-@IntegerRes
+@ColorRes
 fun getTextColor(type: String): Int {
     return when (type) {
         "ELECTRIC" -> R.color.gray_500
@@ -62,4 +63,34 @@ fun getDrawable(type: String): Int {
         "SHADOW" -> R.drawable.dark
         else -> R.drawable.dark //UNKNOWN
     }
+}
+
+@DrawableRes
+fun getBgIconFromDrawable(type: String): Int {
+    return when (type) {
+        "NORMAL" -> R.drawable.drawable_normal
+        "FIGHTING" -> R.drawable.drawable_fighting
+        "FLYING" -> R.drawable.drawable_flying
+        "POISON" -> R.drawable.drawable_poison
+        "GROUND" -> R.drawable.drawable_ground
+        "ROCK" -> R.drawable.drawable_rock
+        "BUG" -> R.drawable.drawable_bug
+        "GHOST" -> R.drawable.drawable_ghost
+        "STEEL" -> R.drawable.drawable_steel
+        "FIRE" -> R.drawable.drawable_fire
+        "WATER" -> R.drawable.drawable_water
+        "GRASS" -> R.drawable.drawable_grass
+        "ELECTRIC" -> R.drawable.drawable_electric
+        "PSYCHIC" -> R.drawable.drawable_psychic
+        "ICE" -> R.drawable.drawable_ice
+        "DRAGON" -> R.drawable.drawable_dragon
+        "DARK" -> R.drawable.drawable_dark
+        "FAIRY" -> R.drawable.drawable_fairy
+        "SHADOW" -> R.drawable.drawable_dark
+        else -> R.drawable.drawable_dark //UNKNOWN
+    }
+}
+
+fun replaceFirstCharToUppercase(name: String): String {
+    return name.lowercase().replaceFirstChar { it.uppercase() }
 }
