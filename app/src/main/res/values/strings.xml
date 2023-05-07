@@ -2,4 +2,11 @@
     <string name="app_name">PokeInfo</string>
     <string name="pokemon_order">N° %1$s</string>
     <string name="home">Home</string>
+    <string name="pokemon_details">Pokemon details</string>
+    <string name="edit_height">%1$s m</string>
+    <string name="edit_weight">%1$s kg</string>
+    <string name="habitat">Habitat:</string>
+    <string name="category">Category:</string>
+    <string name="height">Height:</string>
+    <string name="weight">Weight:</string>
 </resources>
