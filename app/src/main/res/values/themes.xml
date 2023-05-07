@@ -31,4 +31,18 @@
         <item name="android:textColorPrimary">@color/blue_800</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
+
+    <style name="CustomEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textAlignment">center</item>
+
+        <item name="paddingStart">@dimen/paddingStartEditText</item>
+        <item name="paddingEnd">@dimen/paddingEndEditText</item>
+        <item name="android:paddingTop">@dimen/paddingTopEditText</item>
+        <item name="android:paddingBottom">@dimen/paddingBottomEditText</item>
+    </style>
+
+    <style name="CustomEditTextDisabled" parent="CustomEditText">
+        <item name="android:enabled">false</item>
+    </style>
+
 </resources>
