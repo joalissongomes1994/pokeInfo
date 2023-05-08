@@ -5,9 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import joalissongomes.dev.pokeinfo.R
 import joalissongomes.dev.pokeinfo.model.Types
@@ -15,17 +18,44 @@ import joalissongomes.dev.pokeinfo.utils.getColor
 import joalissongomes.dev.pokeinfo.utils.getDrawable
 import joalissongomes.dev.pokeinfo.utils.getTextColor
 
-class PokemonTypeAdapter(private val pokemonTypeList: List<Types>) :
+class PokemonTypeAdapter(
+    @LayoutRes private val layoutId: Int,
+    private val typeLayoutManager: String,
+    private val pokemonTypeList: List<Types>
+) :
     RecyclerView.Adapter<PokemonTypeAdapter.PokemonTypeViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonTypeViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_pokemon_type_card, parent, false)
+            .inflate(layoutId, parent, false)
+
+        if (typeLayoutManager == "GRID") {
+            val layoutParams = view.layoutParams as GridLayoutManager.LayoutParams
+            layoutParams.width = parent.width / 2 - 24
+            layoutParams.height = 80
+            view.layoutParams = layoutParams
+        }
+
         return PokemonTypeViewHolder(view)
+
     }
 
     override fun onBindViewHolder(holder: PokemonTypeViewHolder, position: Int) {
         val itemCurrent = pokemonTypeList[position]
         holder.bind(itemCurrent)
+
+        if (typeLayoutManager == "LINEAR") {
+            val layoutParams = LinearLayoutCompat.LayoutParams(
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+            )
+
+            if (position < pokemonTypeList.size - 1) {
+                layoutParams.marginEnd = 24
+            }
+
+            layoutParams.height = 80
+            holder.itemView.layoutParams = layoutParams
+        }
     }
 
     override fun getItemCount(): Int {
@@ -58,7 +88,7 @@ class PokemonTypeAdapter(private val pokemonTypeList: List<Types>) :
             val drawable = ContextCompat.getDrawable(itemView.context, drawableType)
             imgPokemonType.setImageDrawable(drawable)
         }
+
+
     }
-
-
 }

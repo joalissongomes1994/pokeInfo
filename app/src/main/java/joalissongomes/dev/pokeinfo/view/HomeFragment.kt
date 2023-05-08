@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +19,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeFragment: Fragment(), HomeView {
+class HomeFragment : Fragment(), HomeView {
     private lateinit var presenter: HomePresenter
     private lateinit var rvMain: RecyclerView
+    private lateinit var adapter: HomeAdapter
     private val pokemonList = mutableListOf<PokemonDetail>()
-    private val adapter = HomeAdapter(pokemonList)
     private val scope = CoroutineScope(Dispatchers.Main)
     private var isLoading = false
     private var offset = 0
@@ -46,12 +46,15 @@ class HomeFragment: Fragment(), HomeView {
         // initialize presenter
         presenter = HomePresenter(this)
 
+        //initialize adapter
+        adapter = HomeAdapter(findNavController(), pokemonList)
+
         rvMain = view.findViewById(R.id.rv_main)
         rvMain.layoutManager = LinearLayoutManager(requireContext())
         rvMain.adapter = adapter
 
-        // get first pokemon list items
-        if (rvMain.size == 0) {
+        // get first pokemon list items with adapter
+        if (adapter.itemCount == 0) {
             scope.launch {
                 presenter.findPokemonDetail(offset)
             }

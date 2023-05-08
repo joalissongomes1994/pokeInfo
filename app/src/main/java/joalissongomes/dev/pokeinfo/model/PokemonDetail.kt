@@ -1,6 +1,7 @@
 package joalissongomes.dev.pokeinfo.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Ability(
     val name: String,
@@ -34,12 +35,11 @@ data class Stats(
 )
 
 data class Type(
-    val slot: Int,
     val name: String,
     val url: String
 )
 
-data class Types(val slot: Int, val type: Type)
+data class Types(val slot: Int?, val type: Type)
 
 data class PokemonDetail(
     val id: Int,
@@ -50,7 +50,7 @@ data class PokemonDetail(
     val name: String,
     val order: Int,
     val species: Species,
-    val sprites: Sprite ?,
+    val sprites: Sprite?,
     val stats: List<Stats>,
     val types: List<Types>
-)
+) : Serializable
