@@ -24,7 +24,7 @@ class PokemonRemoteDataSource {
             val jobs = response.results.map { item ->
                 item.name?.let { name ->
                     scope.async {
-                        service.findPokemonDetail(name).await()
+                        service.findPokemonDetailByName(name).await()
                     }
                 }
             }
@@ -46,7 +46,7 @@ class PokemonRemoteDataSource {
 
         service.findPokemonSpecieByName(name.lowercase()).enqueue(object : Callback<PokemonSpecie> {
             override fun onResponse(call: Call<PokemonSpecie>, response: Response<PokemonSpecie>) {
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     val result = response.body()
                     result?.let { callback.onSuccessPokemonSpecie(it) }
                 } else {
@@ -66,10 +66,10 @@ class PokemonRemoteDataSource {
 
         service.findPokemonTypeByType(type.lowercase()).enqueue(object : Callback<PokemonType> {
             override fun onResponse(call: Call<PokemonType>, response: Response<PokemonType>) {
-                if(response.isSuccessful) {
+                if (response.isSuccessful) {
                     val result = response.body()
                     result?.let { callback.onSuccessPokemonType(it) }
-                }else {
+                } else {
                     response.errorBody()?.let {
                         callback.onErrorPokemonType(it.string())
                     }
@@ -82,5 +82,30 @@ class PokemonRemoteDataSource {
                 callback.onCompletePokemonType()
             }
         })
+    }
+
+    fun searchPokemonByName(callback: SearchCallback, name: String) {
+        service.findPokemonDetailByName(name).enqueue(
+            object : Callback<PokemonDetail> {
+                override fun onResponse(
+                    call: Call<PokemonDetail>,
+                    response: Response<PokemonDetail>
+                ) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        result?.let { callback.onSuccess(it) }
+                    } else {
+                        response.errorBody()?.let {
+                            callback.onError(it.string())
+                        }
+                    }
+                    callback.onComplete()
+                }
+
+                override fun onFailure(call: Call<PokemonDetail>, t: Throwable) {
+                    callback.onError(t.message ?: "Internal error")
+                    callback.onComplete()
+                }
+            })
     }
 }

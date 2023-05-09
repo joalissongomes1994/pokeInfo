@@ -10,4 +10,6 @@
     <string name="height">Height:</string>
     <string name="weight">Weight:</string>
     <string name="weakness">Weakness</string>
+    <string name="hint_search">Search by name</string>
+    <string name="search">Search</string>
 </resources>

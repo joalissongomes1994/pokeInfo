@@ -18,7 +18,7 @@ interface PokemonAPI {
     ): Call<Pokemon>
 
     @GET("pokemon/{name}")
-    fun findPokemonDetail(@Path("name") name: String = ""): Call<PokemonDetail>
+    fun findPokemonDetailByName(@Path("name") name: String = ""): Call<PokemonDetail>
 
     @GET("pokemon-species/{name}")
     fun findPokemonSpecieByName(@Path("name") name: String = ""): Call<PokemonSpecie>
