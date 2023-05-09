@@ -8,20 +8,16 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.ColorUtils
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import joalissongomes.dev.pokeinfo.R
 import joalissongomes.dev.pokeinfo.model.PokemonDetail
-import joalissongomes.dev.pokeinfo.model.Types
 import joalissongomes.dev.pokeinfo.presentation.SearchPresenter
 import joalissongomes.dev.pokeinfo.utils.getColor
+import joalissongomes.dev.pokeinfo.utils.loadingCardWithImage
+import joalissongomes.dev.pokeinfo.utils.loadingRecyclerViewPokemonType
+import joalissongomes.dev.pokeinfo.utils.navigateToPokemonDetailsFragment
 
 class SearchPokemonFragment : Fragment(), SearchView {
     private lateinit var presenter: SearchPresenter
@@ -85,9 +81,22 @@ class SearchPokemonFragment : Fragment(), SearchView {
             else -> "${pokemonDetail.id}"
         }
 
-        loadingImage(pokemonDetail)
-        loadingRecyclerViewPokemonType(pokemonDetail)
-        navigateToPokemonDetailsFragment(pokemonDetail)
+        //Get bg color
+        val typeBgColor = getColor(pokemonDetail.types[0].type.name.uppercase())
+        val imageResult = pokemonDetail.sprites?.other?.home?.frontDefault ?: ""
+
+        loadingCardWithImage(imageResult, searchCard, typeBgColor)
+
+        val rvPokemonType = view?.findViewById<RecyclerView>(R.id.rv_pokemon_type)
+        if (rvPokemonType != null)
+            loadingRecyclerViewPokemonType(pokemonDetail, rvPokemonType, searchCard)
+
+        navigateToPokemonDetailsFragment(
+            findNavController(),
+            R.id.action_nav_home_to_nav_pokemon_details,
+            pokemonDetail,
+            searchCard
+        )
 
         txtOrder.text = getString(R.string.pokemon_order, newTxtOrder)
         txtName.text = pokemonDetail.name.lowercase().replaceFirstChar { it.uppercase() }
@@ -106,59 +115,5 @@ class SearchPokemonFragment : Fragment(), SearchView {
 
     override fun hideProgress() {
         progressBar.visibility = View.GONE
-    }
-
-    private fun loadingImage(pokemonDetail: PokemonDetail) {
-        val url = pokemonDetail.sprites?.other?.home?.frontDefault
-        val typeBgColor = getColor(pokemonDetail.types[0].type.name.uppercase())
-        val colorResult = ContextCompat.getColor(requireContext(), typeBgColor)
-
-        val colorWithAlphaCard = ColorUtils.setAlphaComponent(colorResult, 25)
-        val drawableCard = ContextCompat.getDrawable(requireContext(), R.drawable.rounded)
-        val wrappedDrawableCard = drawableCard?.let { DrawableCompat.wrap(it) }
-        wrappedDrawableCard?.let { DrawableCompat.setTint(it, colorWithAlphaCard) }
-        val layoutCard = view?.findViewById<View>(R.id.search_card)
-        layoutCard?.background = drawableCard
-
-        if (url != null) {
-            Picasso.get().load(url).into(img, object : Callback {
-                override fun onSuccess() {
-                    val drawableImage =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.rounded_image)
-                    val wrappedDrawableImage = drawableImage?.let { DrawableCompat.wrap(it) }
-                    wrappedDrawableImage?.let { DrawableCompat.setTint(it, colorResult) }
-
-                    img.background = drawableImage
-                }
-
-                override fun onError(e: Exception?) {
-                    TODO("Not yet implemented")
-                }
-            })
-        }
-    }
-
-    private fun loadingRecyclerViewPokemonType(pokemonDetail: PokemonDetail) {
-        val pokemonTypes = mutableListOf<Types>()
-        if (pokemonDetail.types.isNotEmpty()) {
-            pokemonDetail.types.map {
-                it.let { type -> pokemonTypes.add(type) }
-            }
-        }
-
-        val rvPokemonType = view?.findViewById<RecyclerView>(R.id.rv_pokemon_type)
-        rvPokemonType?.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val adapter = PokemonTypeAdapter(R.layout.item_pokemon_type_card, "LINEAR", pokemonTypes)
-        rvPokemonType?.adapter = adapter
-    }
-
-    private fun navigateToPokemonDetailsFragment(pokemonDetail: PokemonDetail) {
-        searchCard.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable("pokemonDetails", pokemonDetail)
-
-            findNavController().navigate(R.id.action_nav_search_to_nav_pokemon_details, bundle)
-        }
     }
 }

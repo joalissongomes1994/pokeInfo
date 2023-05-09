@@ -1,9 +1,23 @@
 package joalissongomes.dev.pokeinfo.utils
 
+import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.IntegerRes
+import androidx.annotation.IdRes
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.navigation.NavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import joalissongomes.dev.pokeinfo.R
+import joalissongomes.dev.pokeinfo.model.PokemonDetail
+import joalissongomes.dev.pokeinfo.model.Types
+import joalissongomes.dev.pokeinfo.view.PokemonTypeAdapter
 
 @ColorRes
 fun getColor(type: String): Int {
@@ -93,4 +107,72 @@ fun getBgIconFromDrawable(type: String): Int {
 
 fun replaceFirstCharToUppercase(name: String): String {
     return name.lowercase().replaceFirstChar { it.uppercase() }
+}
+
+// Loading RV of the Pokemon type
+fun loadingRecyclerViewPokemonType(
+    item: PokemonDetail,
+    recyclerView: RecyclerView,
+    itemView: View
+) {
+    var pokemonTypes = mutableListOf<Types>()
+    if (item.types.isNotEmpty()) {
+        item.types.map {
+            it.let { type -> pokemonTypes.add(type) }
+        }
+    }
+
+    recyclerView
+    recyclerView.layoutManager =
+        LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
+    val adapter = PokemonTypeAdapter(R.layout.item_pokemon_type_card, "LINEAR", pokemonTypes)
+    recyclerView.adapter = adapter
+}
+
+fun navigateToPokemonDetailsFragment(
+    navController: NavController,
+    @IdRes actionId: Int,
+    pokemonDetail: PokemonDetail,
+    itemView: View
+) {
+
+    itemView.setOnClickListener {
+        val bundle = Bundle()
+        bundle.putSerializable("pokemonDetails", pokemonDetail)
+
+        navController.navigate(actionId, bundle)
+    }
+}
+
+fun loadingCardWithImage(
+    imageResult: String?,
+    view: View,
+    @ColorRes typeBgColor: Int
+) {
+    val imageView = view.findViewById<ImageView>(R.id.img_pokemon)
+    val colorResult = ContextCompat.getColor(view.context, typeBgColor)
+
+    if (imageResult != null) {
+        Picasso.get().load(imageResult).into(imageView, object : Callback {
+            override fun onSuccess() {
+                // bg color in Card
+                val colorWithAlphaCard = ColorUtils.setAlphaComponent(colorResult, 25)
+                val drawableCard = ContextCompat.getDrawable(view.context, R.drawable.rounded)
+                val wrapperDrawableCard = drawableCard?.let { DrawableCompat.wrap(it) }
+                wrapperDrawableCard?.let { DrawableCompat.setTint(it, colorWithAlphaCard) }
+                view.background = drawableCard
+
+                // bg color in Image
+                val colorWithAlphaToImg = ColorUtils.setAlphaComponent(colorResult, 255)
+                val drawableImg =
+                    ContextCompat.getDrawable(view.context, R.drawable.rounded_image)
+                val wrappedDrawableImg = drawableImg?.let { DrawableCompat.wrap(it) }
+                wrappedDrawableImg?.let { DrawableCompat.setTint(it, colorWithAlphaToImg) }
+
+                imageView.background = drawableImg
+            }
+
+            override fun onError(e: Exception?) {}
+        })
+    }
 }
