@@ -115,14 +115,13 @@ fun loadingRecyclerViewPokemonType(
     recyclerView: RecyclerView,
     itemView: View
 ) {
-    var pokemonTypes = mutableListOf<Types>()
+    val pokemonTypes = mutableListOf<Types>()
     if (item.types.isNotEmpty()) {
         item.types.map {
             it.let { type -> pokemonTypes.add(type) }
         }
     }
 
-    recyclerView
     recyclerView.layoutManager =
         LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
     val adapter = PokemonTypeAdapter(R.layout.item_pokemon_type_card, "LINEAR", pokemonTypes)
@@ -152,27 +151,22 @@ fun loadingCardWithImage(
     val imageView = view.findViewById<ImageView>(R.id.img_pokemon)
     val colorResult = ContextCompat.getColor(view.context, typeBgColor)
 
+    // bg color in Card
+    val colorWithAlphaCard = ColorUtils.setAlphaComponent(colorResult, 25)
+    val drawableCard = ContextCompat.getDrawable(view.context, R.drawable.rounded)
+    val wrapperDrawableCard = drawableCard?.let { DrawableCompat.wrap(it) }
+    wrapperDrawableCard?.let { DrawableCompat.setTint(it, colorWithAlphaCard) }
+    view.background = drawableCard
+
+    // bg color in Image
+    val colorWithAlphaToImg = ColorUtils.setAlphaComponent(colorResult, 255)
+    val drawableImg =
+        ContextCompat.getDrawable(view.context, R.drawable.rounded_image)
+    val wrappedDrawableImg = drawableImg?.let { DrawableCompat.wrap(it) }
+    wrappedDrawableImg?.let { DrawableCompat.setTint(it, colorWithAlphaToImg) }
+    imageView.background = drawableImg
+
     if (imageResult != null) {
-        Picasso.get().load(imageResult).into(imageView, object : Callback {
-            override fun onSuccess() {
-                // bg color in Card
-                val colorWithAlphaCard = ColorUtils.setAlphaComponent(colorResult, 25)
-                val drawableCard = ContextCompat.getDrawable(view.context, R.drawable.rounded)
-                val wrapperDrawableCard = drawableCard?.let { DrawableCompat.wrap(it) }
-                wrapperDrawableCard?.let { DrawableCompat.setTint(it, colorWithAlphaCard) }
-                view.background = drawableCard
-
-                // bg color in Image
-                val colorWithAlphaToImg = ColorUtils.setAlphaComponent(colorResult, 255)
-                val drawableImg =
-                    ContextCompat.getDrawable(view.context, R.drawable.rounded_image)
-                val wrappedDrawableImg = drawableImg?.let { DrawableCompat.wrap(it) }
-                wrappedDrawableImg?.let { DrawableCompat.setTint(it, colorWithAlphaToImg) }
-
-                imageView.background = drawableImg
-            }
-
-            override fun onError(e: Exception?) {}
-        })
+        Picasso.get().load(imageResult).into(imageView)
     }
 }
