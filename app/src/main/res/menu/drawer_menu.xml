@@ -16,4 +16,10 @@
         android:checkable="true"
         android:icon="@drawable/ic_baseline_search"
         android:title="@string/search" />
+
+    <item
+        android:id="@+id/nav_about"
+        android:checkable="true"
+        android:icon="@drawable/ic_baseline_info"
+        android:title="@string/about" />
 </menu>

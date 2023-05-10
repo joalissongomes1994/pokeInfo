@@ -12,4 +12,7 @@
     <string name="weakness">Weakness</string>
     <string name="hint_search">Search by name</string>
     <string name="search">Search</string>
+    <string name="about_description">Here\'s our Kotlin app, which uses the public Pokemon API to provide a complete listing of all Pokemon. You can get detailed information on each one by clicking on their cards, and use our search page to quickly find any specific Pokemon. All in a smooth and reliable user experience. Download now and start exploring the world of Pokemon!</string>
+    <string name="author">By Joalisson Gomes</string>
+    <string name="about">About PokeInfo</string>
 </resources>

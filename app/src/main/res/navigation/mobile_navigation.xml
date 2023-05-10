@@ -27,4 +27,10 @@
             android:id="@+id/action_nav_search_to_nav_pokemon_details"
             app:destination="@id/nav_pokemon_details" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="joalissongomes.dev.pokeinfo.view.AboutFragment"
+        tools:layout="@layout/fragment_about" />
+
 </navigation>
