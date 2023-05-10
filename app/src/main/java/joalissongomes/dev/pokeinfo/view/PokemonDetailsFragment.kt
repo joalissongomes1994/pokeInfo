@@ -6,14 +6,10 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -35,15 +31,13 @@ class PokemonDetailsFragment : Fragment(), PokemonDetailsView {
 
     private lateinit var rvPokemonType: RecyclerView
     private lateinit var adapterType: PokemonTypeAdapter
-
     private lateinit var rvPokemonDamageType: RecyclerView
     private lateinit var adapterDamageType: PokemonTypeAdapter
-
     private lateinit var presenter: PokemonDetailsPresenter
     private lateinit var pokemonDetails: PokemonDetail
     private lateinit var typeResult: String
-
     private val pokemonDamageTypes = mutableListOf<Types>()
+    private lateinit var progressScreen: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +57,8 @@ class PokemonDetailsFragment : Fragment(), PokemonDetailsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressScreen = view.findViewById(R.id.progress_screen)
 
         presenter.findPokemonSpecieByName(pokemonDetails.name, typeResult)
 
@@ -225,8 +221,12 @@ class PokemonDetailsFragment : Fragment(), PokemonDetailsView {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showProgress() {}
+    override fun showProgress() {
+        progressScreen.visibility = View.VISIBLE
+    }
 
-    override fun hideProgress() {}
+    override fun hideProgress() {
+        progressScreen.visibility = View.GONE
+    }
 }
 
