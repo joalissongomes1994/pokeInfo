@@ -101,7 +101,7 @@ class SearchPokemonFragment : Fragment(), SearchView {
 
         navigateToPokemonDetailsFragment(
             findNavController(),
-            R.id.action_nav_home_to_nav_pokemon_details,
+            R.id.action_nav_search_to_nav_pokemon_details,
             pokemonDetail,
             searchCard
         )
