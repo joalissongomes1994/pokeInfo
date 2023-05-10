@@ -11,7 +11,7 @@ class SearchPresenter(
 ): SearchCallback {
 
     fun searchPokemonByName(name: String) {
-        searchView.hideProgress()
+        searchView.showProgress()
 
         dataSource.searchPokemonByName(this, name)
     }
