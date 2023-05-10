@@ -33,10 +33,14 @@ Neste app foram abordados fundamentos importantes como:
   <div>
     <img src="https://github.com/joalissongomes1994/pokeInfo/blob/master/screenshots/screenshot_splash_screen.jpeg" width="300" />
     <img src="https://github.com/joalissongomes1994/pokeInfo/blob/master/screenshots/screenshot_home.jpeg" width="300" />
-    <img src="https://github.com/joalissongomes1994/pokeInfo/blob/master/screenshots/screenshot_drawer_menu.jpeg" width="300" />
   </div>
+  
   <div>
+    <img src="https://github.com/joalissongomes1994/pokeInfo/blob/master/screenshots/screenshot_drawer_menu.jpeg" width="300" />
     <img src="https://github.com/joalissongomes1994/pokeInfo/blob/master/screenshots/screenshot_details.gif" width="300" />
+  </div>  
+  
+  <div>
     <img src="https://github.com/joalissongomes1994/pokeInfo/blob/master/screenshots/screenshot_search.jpeg" width="300" />
     <img src="https://github.com/joalissongomes1994/pokeInfo/blob/master/screenshots/screenshot_about.jpeg" width="300" />
   </div>
